@@ -35,24 +35,31 @@ def predict_text(text, preprocess, model):
     return model.predict(text_processed)[0]
 
 def main():
-    st.title("Clasificador de mensajes de odio.")
+    st.title("Is a Hater?")
 
     model, preprocess = load_models()
 
     option = st.sidebar.selectbox(
         "Escoge un modelo",
-        ("Model ML", "Model DL", "Video de youtube")
+        ("Model ML", "Model DL", "Video de YouTube")
     )
 
-    text = st.text_area("Ingresa un texto")
-    if st.button("Clasificar"):
-        if text:
-            try:
-                prediction = predict_text(text, preprocess, model)
-                st.write(prediction)
-            except Exception as e:
-                st.error("Error: ", e)
-        else:
-            st.warning("Ingresa un texto.")
+    if option == "Model ML":
+        st.header("Modelo Naive Bayes")
+        text = st.text_area("Ingresa un texto")
+        if st.button("Clasificar"):
+            if text:
+                try:
+                    prediction = predict_text(text, preprocess, model)
+                    st.write(prediction)
+                except Exception as e:
+                    st.error("Error: ", e)
+            else:
+                st.warning("Ingresa un texto.")
+    elif option == "Model DL":
+        st.header("Modelo de Red Neuronal")
+        text = st.text_area("Ingresa un texto")
+
+
 if __name__ == "__main__":
     main()
