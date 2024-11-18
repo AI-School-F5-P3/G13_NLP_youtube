@@ -1,22 +1,44 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError 
 
 import sys
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Añadir el directorio raíz del proyecto al PYTHONPATH
 root_dir = Path(__file__).parent.parent
 sys.path.append(str(root_dir))
 
 from src.model_ml_one_col import TextPreprocessor
 
+load_dotenv()
+
+API_KEY = os.getenv("KEY_YT")
+youtube = build("youtube", "v3", developerKey=API_KEY)
+
+def get_comments(video_id: str, max_results=30):
+    try:
+        comments = []
+        request = youtube.commentThreads().list(
+            part="snippet",
+            videoId=video_id,
+            maxResults=max_results
+        )
+        response = request.execute()
+        for item in response['items']:
+            comment = item['snippet']['topLevelComment']['snippet']['textOriginal']
+            comments.append(comment)
+    except HttpError:
+        st.error(f"Ingrese una url valida.")
+    return comments
+
 def load_model(path):
     with open(path, 'rb') as file:
         model = joblib.load(file)
     return model
-
 
 def load_pipeline(path):
     with open(path, 'rb') as file:
@@ -59,6 +81,20 @@ def main():
     elif option == "Model DL":
         st.header("Modelo de Red Neuronal")
         text = st.text_area("Ingresa un texto")
+    elif option == "Video de YouTube":
+        st.header("Comentarios de YouTube")
+        video_id = st.text_input("Ingresa e lD del video de YouTube:")
+        if st.button("Extraer"):
+            if video_id:
+                st.info("Extrayendo comentarios...")
+                comments = get_comments(video_id)
+                if comments:
+                    for c in comments:
+                        st.write(c)
+                else:
+                    st.write("No se encontraron comentarios")
+            else:
+                st.warning("Ingrese un ID valido.")
 
 
 if __name__ == "__main__":
