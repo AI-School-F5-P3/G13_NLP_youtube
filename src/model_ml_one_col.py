@@ -14,9 +14,7 @@ import spacy
 import joblib
 import mlflow
 
-from typing import Tuple, Dict, List
-
-nlp = spacy.load("en_core_web_sm")
+from typing import Dict
 
 data = pd.read_csv("../data/data_clean_one_col.csv")
 
@@ -59,34 +57,6 @@ def split_data(data: pd.DataFrame):
 
     return train_test_split(X, y, test_size=0.3, random_state=42)
 
-
-
-# Preprocessing text
-# X_train["Text"] = X_train["Text"].apply(preprocessing)
-# X_train.head()
-
-# vectorizer = TfidfVectorizer(max_features=5000)
-# X_train_vect = vectorizer.fit_transform(X_train["Text"]).toarray()
-
-
-# Inicializar y entrenar el modelo
-# model_nb = MultinomialNB()
-# model_nb.fit(X_train_vect, y_train)
-
-# X_test["Text"] = X_test["Text"].apply(preprocessing)
-# X_test = vectorizer.transform(X_test["Text"]).toarray()
-
-# Predecir en el conjunto de prueba
-# y_pred = model_nb.predict(X_test)
-
-# Evaluar el modelo
-# print("Accuracy:", accuracy_score(y_test, y_pred))
-# print(classification_report(y_test, y_pred))
-
-
-# # Overfitting
-# y_train_pred = model_nb.predict(X_train_vect)
-# print("Overfitting: ", accuracy_score(y_train, y_train_pred) - accuracy_score(y_test, y_pred))
 
 def get_models() -> Dict[str, BaseEstimator]:
     return {
@@ -148,4 +118,5 @@ def train_model():
             mlflow.log_artifact(f'model_{model_name}.joblib')
             mlflow.log_artifact("preprocessing_tfid.joblib")
 
-train_model()
+if __name__ == "__main__":
+    train_model()
