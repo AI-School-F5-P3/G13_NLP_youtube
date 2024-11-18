@@ -1,0 +1,15 @@
+artifact_uri: file:///home/xiomi/Desktop/F5IA/Projects/Project_11_NLP/G13_NLP_youtube/models/mlruns/149589120601094343/cbf553acc9054888a4fc55b03730a1d2/artifacts
+end_time: 1731885852695
+entry_point_name: ''
+experiment_id: '149589120601094343'
+lifecycle_stage: active
+run_id: cbf553acc9054888a4fc55b03730a1d2
+run_name: linear_svc
+run_uuid: cbf553acc9054888a4fc55b03730a1d2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1731885852553
+status: 3
+tags: []
+user_id: xiomi

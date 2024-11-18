@@ -1,0 +1,15 @@
+artifact_uri: file:///home/xiomi/Desktop/F5IA/Projects/Project_11_NLP/G13_NLP_youtube/models/mlruns/149589120601094343/45c540b2f5074fddb73b3b89b84f03e0/artifacts
+end_time: 1731883452453
+entry_point_name: ''
+experiment_id: '149589120601094343'
+lifecycle_stage: active
+run_id: 45c540b2f5074fddb73b3b89b84f03e0
+run_name: naive_bayes
+run_uuid: 45c540b2f5074fddb73b3b89b84f03e0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1731883452406
+status: 4
+tags: []
+user_id: xiomi

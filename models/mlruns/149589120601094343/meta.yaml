@@ -1,0 +1,6 @@
+artifact_location: file:///home/xiomi/Desktop/F5IA/Projects/Project_11_NLP/G13_NLP_youtube/models/mlruns/149589120601094343
+creation_time: 1731883309829
+experiment_id: '149589120601094343'
+last_update_time: 1731883309829
+lifecycle_stage: active
+name: hate_speech_youtube

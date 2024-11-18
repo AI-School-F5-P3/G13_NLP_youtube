@@ -1,0 +1,15 @@
+artifact_uri: file:///home/xiomi/Desktop/F5IA/Projects/Project_11_NLP/G13_NLP_youtube/models/mlruns/149589120601094343/8c03186205dd4d08b4316cb67bba1521/artifacts
+end_time: 1731883622482
+entry_point_name: ''
+experiment_id: '149589120601094343'
+lifecycle_stage: active
+run_id: 8c03186205dd4d08b4316cb67bba1521
+run_name: logistic_regression
+run_uuid: 8c03186205dd4d08b4316cb67bba1521
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1731883622369
+status: 3
+tags: []
+user_id: xiomi
