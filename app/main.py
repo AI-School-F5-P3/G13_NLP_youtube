@@ -92,9 +92,9 @@ def main():
                     for c in comments:
                         st.write(c)
                 else:
-                    st.write("No se encontraron comentarios")
+                    st.write("No se encontraron comentarios.")
             else:
-                st.warning("Ingrese un ID valido.")
+                st.warning("Ingrese la url del video de YouTube.")
 
 
 if __name__ == "__main__":
