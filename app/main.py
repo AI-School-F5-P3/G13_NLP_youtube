@@ -104,6 +104,7 @@ def main():
         url = st.text_input("Ingresa la URL del video de YouTube:")
         if st.button("Extraer"):
             if url:
+                st.video(url)
                 video_id = get_id_video(url)
                 comments = predict_comments_yt(video_id, preprocess, model)
                 st.write(comments)
