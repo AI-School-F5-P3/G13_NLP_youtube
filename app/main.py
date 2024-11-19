@@ -8,6 +8,7 @@ import sys
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from typing import List
 
 root_dir = Path(__file__).parent.parent
 sys.path.append(str(root_dir))
@@ -19,7 +20,7 @@ load_dotenv()
 API_KEY = os.getenv("KEY_YT")
 youtube = build("youtube", "v3", developerKey=API_KEY)
 
-def get_comments(video_id: str, max_results=30):
+def get_comments(video_id: str, max_results=50):
     try:
         comments = []
         request = youtube.commentThreads().list(
@@ -31,9 +32,16 @@ def get_comments(video_id: str, max_results=30):
         for item in response['items']:
             comment = item['snippet']['topLevelComment']['snippet']['textOriginal']
             comments.append(comment)
-    except HttpError:
-        st.error(f"Ingrese una url valida.")
-    return comments
+    except HttpError as e:
+        st.error(f"Ingrese una url valida.", e)
+    return pd.Series(comments)
+
+def predict_comments_yt(video_id, preprocess, model):
+    comments = get_comments(video_id)
+    comm_preprocess = preprocess.transform(comments)
+    comm_pred = model.predict(comm_preprocess)
+    comm_pred = pd.Series(comm_pred)
+    return pd.DataFrame({"comment": comments, "is?": comm_pred})
 
 def load_model(path):
     with open(path, 'rb') as file:
@@ -78,24 +86,26 @@ def main():
                     st.error("Error: ", e)
             else:
                 st.warning("Ingresa un texto.")
+
+    # Pagina de model de red neuronal
     elif option == "Model DL":
         st.header("Modelo de Red Neuronal")
         text = st.text_area("Ingresa un texto")
+
+    # Pagina de videoid
     elif option == "Video de YouTube":
+        comments = pd.Series()
         st.header("Comentarios de YouTube")
         video_id = st.text_input("Ingresa e lD del video de YouTube:")
         if st.button("Extraer"):
             if video_id:
-                st.info("Extrayendo comentarios...")
-                comments = get_comments(video_id)
-                if comments:
-                    for c in comments:
-                        st.write(c)
-                else:
-                    st.write("No se encontraron comentarios.")
+                comments = predict_comments_yt(video_id, preprocess, model)
+                st.write(comments)
+                # if comments.any():
+                # else:
+                #     st.write("No se encontraron comentarios.")
             else:
                 st.warning("Ingrese la url del video de YouTube.")
-
 
 if __name__ == "__main__":
     main()
