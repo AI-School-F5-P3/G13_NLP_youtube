@@ -20,6 +20,11 @@ load_dotenv()
 API_KEY = os.getenv("KEY_YT")
 youtube = build("youtube", "v3", developerKey=API_KEY)
 
+def get_id_video(url: str):
+    url = url.split("=")[1]
+    id = url.split("&")[0]
+    return id
+
 def get_comments(video_id: str, max_results=50):
     try:
         comments = []
@@ -65,7 +70,7 @@ def predict_text(text, preprocess, model):
     return model.predict(text_processed)[0]
 
 def main():
-    st.title("Is a Hater?")
+    st.title("Comentario de odio?")
 
     model, preprocess = load_models()
 
@@ -96,9 +101,10 @@ def main():
     elif option == "Video de YouTube":
         comments = pd.Series()
         st.header("Comentarios de YouTube")
-        video_id = st.text_input("Ingresa e lD del video de YouTube:")
+        url = st.text_input("Ingresa la URL del video de YouTube:")
         if st.button("Extraer"):
-            if video_id:
+            if url:
+                video_id = get_id_video(url)
                 comments = predict_comments_yt(video_id, preprocess, model)
                 st.write(comments)
                 # if comments.any():
